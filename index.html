@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Phishing Detector</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+
+    <div class="glass-card">
+        
+        <h2 class="title-glow mb-3">🔍 AI Phishing Detector</h2>
+        <p class="text-center text-light mb-4">Paste any email content and let AI scan it instantly.</p>
+
+        <textarea id="emailText" rows="10" class="form-control mb-3" placeholder="Paste email text here..."></textarea>
+
+        <button onclick="analyzeEmail()" class="btn-custom">Analyze Email</button>
+
+        <p id="msg" class="text-center mt-3 text-white"></p>
+
+    </div>
+
+</div>
+
+<script>
+function analyzeEmail() {
+    const emailText = document.getElementById("emailText").value;
+
+    if (emailText.trim() === "") {
+        document.getElementById("msg").innerHTML = "⚠️ Please enter email text!";
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("email_text", emailText);
+
+    fetch("http://localhost:8000/analyze-email", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        localStorage.setItem("result", JSON.stringify(data));
+        window.location.href = "result.html";
+    })
+    .catch(err => console.log(err));
+}
+</script>
+
+</body>
+</html>
