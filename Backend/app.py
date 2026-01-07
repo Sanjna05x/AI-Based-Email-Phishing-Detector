@@ -28,3 +28,4 @@ async def analyze_email(email_text: str = Form(...)):
 @app.get("/")
 async def root():
     return {"message": "Email Phishing Detection API Running!"}
+
